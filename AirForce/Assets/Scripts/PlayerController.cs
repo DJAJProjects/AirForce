@@ -18,12 +18,15 @@ public class PlayerController : MonoBehaviour
     public Transform shotSpawn;
     public float fireRate;
     public float tilt;
+    public float rotationSpeed;
 
     private float nextFire;
+    private float oldRotX;
     // Use this for initialization
     void Start ()
     {
         rb = GetComponent<Rigidbody>();
+        oldRotX = transform.rotation.x;
     }
 
     void Update()
@@ -38,16 +41,25 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-	    float moveHorizontal = Input.GetAxis("Horizontal");
-	    float moveVertical = Input.GetAxis("Vertical");
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-	    rb.velocity = movement*speed;
-        rb.position = new Vector3(
-            Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
-            0.0f,
-            Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)
-        );
-	    rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * (-tilt));
-	}
+
+        /*  float rotY = Input.GetAxis("Mouse Y") * Time.deltaTime * rotationSpeed;
+          float rotX = Input.GetAxis("Mouse X") * Time.deltaTime * rotationSpeed;
+          // float rotZ = rb.rotation.eulerAngles.z + (Input.GetAxis("Mouse X") - rb.rotation.eulerAngles.y) * Time.deltaTime * rotationSpeed * (-tilt);
+
+
+          rb.rotation = Quaternion.Euler(rb.rotation.eulerAngles + new Vector3(rotY, rotX,0));
+
+          rb.position = rb.position + transform.forward * speed * Time.deltaTime;*/
+
+
+        // make the ship move at a constant forward speed.
+        rb.velocity = transform.forward * speed;
+        float x = Input.GetAxis("Vertical");
+        float y  = Input.GetAxis("Horizontal");
+        rb.AddRelativeTorque(x * rotationSpeed * Time.deltaTime, y * rotationSpeed * Time.deltaTime, 0);
+        rb.AddRelativeTorque(y * (-1) * rotationSpeed * Time.deltaTime * Vector3.forward); // added this
+
+
+    }
 
 }
