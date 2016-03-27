@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour
         gameOverText.text = "";
         score = 0;
         UpdateScore();
-        StartCoroutine(SpawnWaves());
+       // StartCoroutine(SpawnWaves());
     }
 
     void Update()
@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour
             }
         }
     }
-    IEnumerator SpawnWaves()
+    /*IEnumerator SpawnWaves()
     {
         yield return new WaitForSeconds(startWait);
         while (true)
@@ -63,8 +63,9 @@ public class GameController : MonoBehaviour
                 break;
             }
         }
-    }
+    }*/
 
+    public bool isGameOver() { return gameOver; }
     public void ReverseDirection(GameObject clone)
     {
        Quaternion rot =  clone.transform.rotation;
@@ -85,6 +86,7 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         gameOver = true;
-        gameOverText.text = "Game Over"; 
+        gameOverText.text = "Game Over";
+        Time.timeScale = 0;
     }
 }

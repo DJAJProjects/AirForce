@@ -4,7 +4,6 @@ using System.Collections;
 public class DestroyByContact : MonoBehaviour
 {
     public GameObject explosion;
-    public GameObject playerExplosion;
     private GameController gameController;
     public int scoreValue;
 
@@ -22,20 +21,21 @@ public class DestroyByContact : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        /*if (other.CompareTag("Boundary") || other.CompareTag("Enemy"))
+        if (isCollider(other))
         {
-            return;
-        }
-        if(explosion!=null)
             Instantiate(explosion, transform.position, transform.rotation);
-        if (other.tag.Equals("Player"))
-        {
-            Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
-            gameController.GameOver();
+            if (this.tag.Equals("Player"))
+            {
+                gameController.GameOver();
+            }
+            else Destroy(this.gameObject);
         }
-        else
-            gameController.AddScore(scoreValue);
-        Destroy(other.gameObject);
-        Destroy(gameObject);*/
+
+           // gameController.AddScore(scoreValue);
+    }
+
+    private bool isCollider(Collider other)
+    {
+        return other.tag.Equals("Terrain");
     }
 }
