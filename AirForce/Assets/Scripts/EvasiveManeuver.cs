@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class EvasiveManeuver : MonoBehaviour
 {
-    public float dodge;
+  /*  public float dodge;
     public float smoothing;
     public float tilt;
     public Vector2 startWait;
@@ -56,5 +56,5 @@ public class EvasiveManeuver : MonoBehaviour
             );
         rb.rotation= Quaternion.Euler(0.0f,0.0f,rb.velocity.x*-tilt)
 	    ;
-	}
+	}*/
 }

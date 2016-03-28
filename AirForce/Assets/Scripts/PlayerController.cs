@@ -2,41 +2,28 @@
 using UnityEngine;
 using System.Collections;
 
-[Serializable]
-public class Boundary
-{
-    public float xMin, xMax, zMin, zMax;
-   
-}
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody rb;
+   
     public float speed;
     public GameObject shot;
-    public GameController gc;
     public Transform shotSpawn;
+    public GameObject explosionOnDeath;
     public float fireRate;
     public float tilt;
     public float rotationSpeed;
 
+    private Rigidbody rb;
     private float nextFire;
-    private float oldRotX;
+    private GameController gc;
+
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
-        oldRotX = transform.rotation.x;
-
         GameObject obj = GameObject.FindWithTag("GameController");
-        if (obj != null)
-        {
-            gc = obj.GetComponent<GameController>();
-        }
-        else
-        {
-            Debug.Log("Nie znalezniono 'game controller");
-        }
+        gc = obj.GetComponent("GameController") as GameController;
     }
 
     void Update()
@@ -48,19 +35,25 @@ public class PlayerController : MonoBehaviour
             GetComponent<AudioSource>().Play();
         }
     }
-	// Update is called once per frame
-	void FixedUpdate ()
-	{
+    // Update is called once per frame
+    void FixedUpdate()
+    {
         if (gc.isGameOver()) return;
 
         // make the ship move at a constant forward speed.
         rb.velocity = transform.forward * speed;
         float x = Input.GetAxis("Vertical");
-        float y  = Input.GetAxis("Horizontal");
+        float y = Input.GetAxis("Horizontal");
         rb.AddRelativeTorque(x * rotationSpeed * Time.deltaTime, y * rotationSpeed * Time.deltaTime, 0);
-        rb.AddRelativeTorque(y * (-1) * rotationSpeed * Time.deltaTime * Vector3.forward); 
-
-
+        rb.AddRelativeTorque(y * (-1) * rotationSpeed * Time.deltaTime * Vector3.forward);
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("Terrain"))
+        {
+            Instantiate(explosionOnDeath, transform.position, transform.rotation);
+            gc.GameOver();
+        }
+    }
 }

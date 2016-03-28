@@ -89,4 +89,5 @@ public class GameController : MonoBehaviour
         gameOverText.text = "Game Over";
         Time.timeScale = 0;
     }
+
 }
