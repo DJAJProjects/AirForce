@@ -10,6 +10,7 @@ public class WeaponController : MonoBehaviour
     public Transform shotSpawn;
     public float fireRate;
     public float delay;
+
 	// Use this for initialization
 	void Start ()
 	{

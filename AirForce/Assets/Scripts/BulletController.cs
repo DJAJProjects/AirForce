@@ -23,16 +23,20 @@ public class BulletController : MonoBehaviour {
         Properties p = other.GetComponent("Properties") as Properties;
         if (p == null) return;
 
-        if (p.Player)
+        // Kill hit player
+        if (p.player)
         {
             Instantiate(explosion, transform.position, transform.rotation);
             gc.GameOver();
             Destroy(this.gameObject);
         }
-        else if (p.crushCollider)
+        // Destroy hit objesct
+        else if (p.destroyable)
         {
             Instantiate(explosion, transform.position, transform.rotation);
+            Destroy(other.gameObject);
             Destroy(this.gameObject);
         }
+
     }
 }

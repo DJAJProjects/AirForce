@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Properties : MonoBehaviour {
 
-    public bool Player;
-    public bool Enemy;
+    public bool player;
+    public bool enemy;
     public bool crushCollider;
     public bool bonus;
     public bool destroyable;

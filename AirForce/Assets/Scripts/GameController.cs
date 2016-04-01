@@ -40,32 +40,9 @@ public class GameController : MonoBehaviour
             }
         }
     }
-    /*IEnumerator SpawnWaves()
-    {
-        yield return new WaitForSeconds(startWait);
-        while (true)
-        {
-            for (int i = 0; i < hazardCount; i++)
-            {
-                GameObject hazard = hazards[Random.Range(0, hazards.Length)];
-                Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-                Quaternion spawnRotation = Quaternion.identity;
-               GameObject clone =Instantiate(hazard, spawnPosition, spawnRotation) as GameObject;
-                clone.transform.SetParent(null);
-                ReverseDirection(clone);
-                yield return new WaitForSeconds(spawnWait);
-            }
-            yield return new WaitForSeconds(waveWait);
-            if (gameOver)
-            {
-                restartText.text = "Press 'R' to restart";
-                restart = true;
-                break;
-            }
-        }
-    }*/
 
     public bool isGameOver() { return gameOver; }
+
     public void ReverseDirection(GameObject clone)
     {
        Quaternion rot =  clone.transform.rotation;
