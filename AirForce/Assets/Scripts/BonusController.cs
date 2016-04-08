@@ -4,7 +4,7 @@ using System.Collections;
 public enum BonusType {score, lifeBonus, speedBonus};
 public enum BonusEvent { destruction, collision};
 
-public class BonusController : MonoBehaviour
+public class BonusController : BasicObjectController
 {
     public BonusType bonusType;
     public BonusEvent bonusEvent;
@@ -30,21 +30,17 @@ public class BonusController : MonoBehaviour
     {
         if (bonusEvent != BonusEvent.collision) return;
 
-        Properties prop = other.GetComponent("Properties") as Properties;
+        PlayerController player = other.GetComponent("PlayerController") as PlayerController;
 
-        // Give bonus to player
-        if (prop.player)
+        if (this.bonusType == BonusType.speedBonus)
         {
-            PlayerController player = other.GetComponent("PlayerController") as PlayerController;
-
-            if (this.bonusType == BonusType.speedBonus)
-            {
-                player.speedChange(bonusValue, timeRate);
-            }
-            else if (this.bonusType == BonusType.lifeBonus)
-            {
-                player.lifeChange(bonusValue);
-            }
+            player.speedChange(bonusValue, timeRate);
+            DestroyObject(this.gameObject);
+        }
+        else if (this.bonusType == BonusType.lifeBonus)
+        {
+             player.lifeChange(bonusValue);
+             DestroyObject(this.gameObject);
         }
     }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : BasicObject
 {
     public float initialLife;
     public GameObject shot;
@@ -24,7 +24,18 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private float nextFire;
     private GameController gc;
+    
 
+    public override void shooted(float destruction)
+    {
+        lifeChange(-destruction);
+    }
+
+    public override void crushed()
+    {
+        Instantiate(explosionOnDeath, transform.position, transform.rotation);
+        gc.GameOver();
+    }
 
     public void speedChange(float value, float _speedBonusTime)
     {
@@ -37,7 +48,7 @@ public class PlayerController : MonoBehaviour
         {
             speed = minSpeed;
         }
-        else if(speed > maxSpeed)
+        else if (speed > maxSpeed)
         {
             speed = maxSpeed;
         }
@@ -52,6 +63,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public float getLife() { return life; }
+
     // Use this for initialization
     void Start()
     {
@@ -61,6 +74,7 @@ public class PlayerController : MonoBehaviour
 
         speed = initialSpeed;
         life = initialLife;
+
     }
 
     void Update()
@@ -104,12 +118,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Properties p = other.GetComponent("Properties") as Properties;
-
-        if (p.crushCollider)
-        {
-            Instantiate(explosionOnDeath, transform.position, transform.rotation);
-            gc.GameOver();
-        }
     }
+
+    
 }

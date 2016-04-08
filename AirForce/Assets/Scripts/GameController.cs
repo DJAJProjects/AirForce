@@ -5,14 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-
+    public PlayerController playerController;
     public GameObject [] hazards;
     public Vector3 spawnValues;
     public int hazardCount;
     public float spawnWait, startWait, waveWait;
 
     private int score;
-    public GUIText scoreText;
+    public GUIText lifeText;
     public GUIText restartText;
     public GUIText gameOverText;
 
@@ -26,12 +26,13 @@ public class GameController : MonoBehaviour
         restartText.text = "";
         gameOverText.text = "";
         score = 0;
-        UpdateScore();
+        
        // StartCoroutine(SpawnWaves());
     }
 
     void Update()
     {
+        UpdateLifeText();
         if (restart)
         {
             if (Input.GetKeyDown(KeyCode.R))
@@ -53,11 +54,11 @@ public class GameController : MonoBehaviour
     public void AddScore(int newScoreValue)
     {
         score += newScoreValue;
-        UpdateScore();
+        
     }
-    public void UpdateScore()
+    public void UpdateLifeText()
     {
-        scoreText.text = "Score: " + score;
+        lifeText.text = "Life: " + playerController.getLife();
     }
 
     public void GameOver()
