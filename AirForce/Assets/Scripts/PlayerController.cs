@@ -13,6 +13,8 @@ public class PlayerController : BasicObject
     public float tilt;
     public float initialSpeed;
     public float rotationSpeed;
+    public float mouseRotationSpeed;
+    public float onlyHorizontalRotationSpeed;
     public float minSpeed = 5;
     public float maxSpeed = 300;
 
@@ -82,7 +84,7 @@ public class PlayerController : BasicObject
         if (gc.isGameOver()) return;
 
         // Shooting 
-        if (Input.GetButton("Fire1") && Time.time > nextFire)
+        if (Input.GetKey(KeyCode.Space) && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
             Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
@@ -108,12 +110,19 @@ public class PlayerController : BasicObject
     {
         if (gc.isGameOver()) return;
 
-        // Flight physics
-        rb.velocity = transform.forward * speed;
-        float x = Input.GetAxis("Vertical");
-        float y = Input.GetAxis("Horizontal");
-        rb.AddRelativeTorque(x * rotationSpeed * Time.deltaTime, y * rotationSpeed * Time.deltaTime, 0);
-        rb.AddRelativeTorque(y * (-1) * rotationSpeed * Time.deltaTime * Vector3.forward);
+         // Flight physics
+          rb.velocity = transform.forward * speed;
+          float x = Input.GetAxis("Vertical");
+          float y = Input.GetAxis("Horizontal");
+
+          float y2 = Input.GetAxis("Mouse X");
+
+          rb.AddRelativeTorque(x * rotationSpeed * Time.deltaTime, y * rotationSpeed * Time.deltaTime, 0);
+          rb.AddRelativeTorque(y * (-1) * rotationSpeed * Time.deltaTime * Vector3.forward);
+
+          rb.AddRelativeTorque(y2 * (-1) * mouseRotationSpeed * Time.deltaTime * Vector3.forward);
+
+
     }
 
     void OnTriggerEnter(Collider other)

@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public Vector3 spawnValues;
     public int hazardCount;
     public float spawnWait, startWait, waveWait;
+    public GameObject sceneLight;
 
     private int score;
     public GUIText lifeText;
@@ -26,8 +27,9 @@ public class GameController : MonoBehaviour
         restartText.text = "";
         gameOverText.text = "";
         score = 0;
-        
-       // StartCoroutine(SpawnWaves());
+        sceneLight.GetComponent<Light>().enabled = false;
+
+        // StartCoroutine(SpawnWaves());
     }
 
     void Update()

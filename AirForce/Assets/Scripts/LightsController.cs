@@ -3,9 +3,11 @@ using System.Collections;
 
 public class LightsController : MonoBehaviour {
 
-    private bool turnedOn;
+    public double energyLoseRate = 0.5;
 
+    private bool turnedOn;
     private Light lights = null;
+    private double energy = 100;
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +17,7 @@ public class LightsController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+       
         if (Input.GetKeyDown(KeyCode.Q))
         {
             if (turnedOn)
@@ -22,11 +25,21 @@ public class LightsController : MonoBehaviour {
                 turnedOn = false;
                 lights.enabled = false;
             }
-            else
+            else if(energy > 0)
             {
                 turnedOn = true;
                 lights.enabled = true;
             }
         }
-	}
+        if (turnedOn)
+        {
+            energy -= energyLoseRate * Time.deltaTime;
+            if(energy <= 0)
+            {
+                energy = 0;
+                turnedOn = false;
+                lights.enabled = false;
+            }
+        }
+    }
 }

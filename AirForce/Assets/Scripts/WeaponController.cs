@@ -8,15 +8,18 @@ public class WeaponController : MonoBehaviour
     public AudioClip [] clips;
     public GameObject shot;
     public Transform shotSpawn;
+ 
     public float fireRate;
     public float delay;
+
 
 	// Use this for initialization
 	void Start ()
 	{
         audioSource = GetComponent<AudioSource>();
         InvokeRepeating("Fire", delay, fireRate);
-	}
+
+    }
 
     void Fire()
     {
