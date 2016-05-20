@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum BonusType {score, lifeBonus, speedBonus};
+public enum BonusType {score, lifeBonus, speedBonus, ammoBonus, energyBonus};
 public enum BonusEvent { destruction, collision};
 
 public class BonusController : BasicObjectController
@@ -41,6 +41,16 @@ public class BonusController : BasicObjectController
         {
              player.lifeChange(bonusValue);
              DestroyObject(this.gameObject);
+        }
+        else if( this.bonusType == BonusType.ammoBonus)
+        {
+            player.ammoChange((int)bonusValue);
+            DestroyObject(this.gameObject);
+        }
+        else if (this.bonusType == BonusType.energyBonus)
+        {
+            player.energyChange((float)bonusValue);
+            DestroyObject(this.gameObject);
         }
     }
 

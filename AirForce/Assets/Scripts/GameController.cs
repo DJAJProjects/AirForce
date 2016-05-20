@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
     public GUIText lifeText;
     public GUIText restartText;
     public GUIText gameOverText;
+    public GUIText ammoText;
+    public GUIText energyText;
 
     private bool gameOver;
     private bool restart;
@@ -34,7 +36,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        UpdateLifeText();
+        UpdateText();
         if (restart)
         {
             if (Input.GetKeyDown(KeyCode.R))
@@ -58,9 +60,12 @@ public class GameController : MonoBehaviour
         score += newScoreValue;
         
     }
-    public void UpdateLifeText()
+    public void UpdateText()
     {
         lifeText.text = "Life: " + playerController.getLife();
+        ammoText.text = "Ammo: " + playerController.getAmmo();
+        energyText.text = "Energy: " + playerController.getEnergy();
+
     }
 
     public void GameOver()

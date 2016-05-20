@@ -3,43 +3,46 @@ using System.Collections;
 
 public class LightsController : MonoBehaviour {
 
-    public double energyLoseRate = 0.5;
+    public float energyLoseRate = (float)0.5;
+    public float initialEnergy;
 
-    private bool turnedOn;
     private Light lights = null;
-    private double energy = 100;
+    private float energy = 100;
+
+    public float getEnergy() { return energy; }
 
 	// Use this for initialization
 	void Start () {
-        turnedOn = false;
         lights = this.GetComponent<Light>();
+        energy = initialEnergy;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    public void energyChange(float value)
+    {
+        energy += value;
+        if (energy <= 0 && lights.enabled)
+        {
+            lights.enabled = false;
+            energy = 0;
+        }
+        else if (!lights.enabled && energy > 0)
+        {
+            lights.enabled = true;
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
        
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (turnedOn)
-            {
-                turnedOn = false;
-                lights.enabled = false;
-            }
-            else if(energy > 0)
-            {
-                turnedOn = true;
-                lights.enabled = true;
-            }
+            if (lights.enabled) lights.enabled = false;
+            else if(energy > 0) lights.enabled = true;
+
         }
-        if (turnedOn)
+        if (lights.enabled)
         {
-            energy -= energyLoseRate * Time.deltaTime;
-            if(energy <= 0)
-            {
-                energy = 0;
-                turnedOn = false;
-                lights.enabled = false;
-            }
+            energyChange(energyLoseRate*Time.deltaTime *(-1));
         }
     }
 }

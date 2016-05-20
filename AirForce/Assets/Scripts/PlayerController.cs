@@ -6,10 +6,7 @@ using System.Collections;
 public class PlayerController : BasicObject
 {
     public float initialLife;
-    public GameObject shot;
-    public Transform shotSpawn;
     public GameObject explosionOnDeath;
-    public float fireRate;
     public float tilt;
     public float initialSpeed;
     public float rotationSpeed;
@@ -24,9 +21,15 @@ public class PlayerController : BasicObject
     private bool speedBonus = false;
     private float life;
     private Rigidbody rb;
-    private float nextFire;
     private GameController gc;
-    
+    private WeaponController wc;
+    private LightsController lc;
+
+
+    public void ammoChange(int value)
+    {
+        wc.ammunition += value;
+    }
 
     public override void shooted(float destruction)
     {
@@ -64,8 +67,17 @@ public class PlayerController : BasicObject
             gc.GameOver();
         }
     }
+    
+    public int getAmmo() { return wc.ammunition; }
 
     public float getLife() { return life; }
+
+    public double getEnergy() { return lc.getEnergy(); }
+
+    public void energyChange(float value)
+    {
+        lc.energyChange(value);
+    }
 
     // Use this for initialization
     void Start()
@@ -73,10 +85,11 @@ public class PlayerController : BasicObject
         rb = GetComponent<Rigidbody>();
         GameObject obj = GameObject.FindWithTag("GameController");
         gc = obj.GetComponent("GameController") as GameController;
+        wc = this.GetComponent("WeaponController") as WeaponController;
+        lc = this.GetComponentInChildren(typeof(LightsController)) as LightsController;
 
         speed = initialSpeed;
         life = initialLife;
-
     }
 
     void Update()
@@ -84,11 +97,9 @@ public class PlayerController : BasicObject
         if (gc.isGameOver()) return;
 
         // Shooting 
-        if (Input.GetKey(KeyCode.Space) && Time.time > nextFire)
+        if (Input.GetKey(KeyCode.Space))
         {
-            nextFire = Time.time + fireRate;
-            Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
-            GetComponent<AudioSource>().Play();
+            wc.Fire();
         }
 
         //SpeedBonus
