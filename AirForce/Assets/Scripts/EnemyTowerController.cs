@@ -4,7 +4,9 @@ using System.Collections;
 public class EnemyTowerController : BasicObject {
 
     public Transform target;
+    public GameObject turret;
     public GameObject destructionExplosion;
+    private WeaponController turretWC;
     public float life;
 
     public override void shooted(float destruction)
@@ -19,14 +21,15 @@ public class EnemyTowerController : BasicObject {
 
     // Use this for initialization
     void Start () {
-	
-	}
+        turretWC = turret.GetComponent<WeaponController>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
         if (target != null)
         {
-            transform.LookAt(target);
+            turret.transform.LookAt(target);
+            turretWC.Fire();
         }
     }
 }
