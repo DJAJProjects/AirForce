@@ -64,7 +64,7 @@ public class GameController : MonoBehaviour
     {
         lifeText.text = "Life: " + playerController.getLife();
         ammoText.text = "Ammo: " + playerController.getAmmo();
-        energyText.text = "Energy: " + playerController.getEnergy().ToString("#");
+        energyText.text = "Energy: " + playerController.getEnergy();
 
     }
 
